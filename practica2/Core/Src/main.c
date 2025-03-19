@@ -56,6 +56,17 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/**
+  * @brief Inicializa la estructura de delay.
+  *
+  * Configura el retardo inicializando la estructura delay_t con el tiempo actual,
+  * asigna la duración especificada y establece el estado del delay como inactivo.
+  *
+  * @param delay Puntero a la estructura delay_t que se va a inicializar.
+  * @param duration Valor en ms que representa la duración del delay.
+  *
+  * @retval void
+  */
 void delayInit( delay_t * delay, tick_t duration )
 {
 	assert(delay);
@@ -64,6 +75,18 @@ void delayInit( delay_t * delay, tick_t duration )
 	delay->running = false;
 }
 
+/**
+  * @brief Verifica y actualiza el estado del delay.
+  *
+  * Esta función evalúa si ha transcurrido el tiempo especificado en la estructura de delay.
+  * Si el delay no estaba en ejecución, se inicia estableciendo el tiempo de inicio actual.
+  * Si ya estaba en ejecución, compara el tiempo transcurrido con la duración configurada.
+  * Retorna verdadero si el delay ha completado su duración y lo detiene, o falso si aún está en curso.
+  *
+  * @param delay Puntero a la estructura delay_t que contiene la configuración del delay.
+  *
+  * @retval bool_t Verdadero si se cumplió la duración del delay, falso en caso contrario.
+  */
 bool_t delayRead( delay_t * delay )
 {
 	assert(delay);
@@ -83,12 +106,32 @@ bool_t delayRead( delay_t * delay )
 	return ret;
 }
 
+/**
+  * @brief Modifica la duración del delay.
+  *
+  * Actualiza la duración del delay en la estructura delay_t con el valor especificado.
+  * Esta función permite cambiar el tiempo de espera sin afectar otros parámetros del delay.
+  *
+  * @param delay Puntero a la estructura delay_t que contiene la configuración del delay.
+  * @param duration Nueva duración en ticks para el delay.
+  *
+  * @retval void
+  */
 void delayWrite( delay_t * delay, tick_t duration )
 {
 	assert(delay);
 	delay->duration = duration;
 }
 
+/**
+  * @brief Detiene el delay.
+  *
+  * Esta función detiene el delay configurando su duración a 0 y marcándolo como no activo.
+  *
+  * @param delay Puntero a la estructura delay_t que contiene la configuración del delay.
+  *
+  * @retval void
+  */
 void delayStop( delay_t * delay )
 {
 	assert(delay);
